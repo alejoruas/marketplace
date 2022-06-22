@@ -1,0 +1,5 @@
+//build de docker image
+docker build -t marketplace .
+
+
+

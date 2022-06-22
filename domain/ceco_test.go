@@ -1,7 +1,7 @@
 package domain_test
 
 import (
-	"marketplace/modules/expenses/domain"
+	"marketplace/domain"
 	"strings"
 	"testing"
 )

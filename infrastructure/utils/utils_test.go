@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"marketplace/modules/utils"
 	"testing"
 	"unicode/utf8"
 )
@@ -16,11 +15,11 @@ func FuzzReverse(f *testing.F) {
 	}
 
 	f.Fuzz(func(t *testing.T, orig string) {
-		rev, err1 := utils.Reverse(orig)
+		rev, err1 := Reverse(orig)
 		if err1 != nil {
 			return
 		}
-		doubleRev, err2 := utils.Reverse(rev)
+		doubleRev, err2 := Reverse(rev)
 		if err2 != nil {
 			return
 		}
@@ -60,7 +59,7 @@ func FuzzContains(f *testing.F) {
 		fmt.Println("json:%S", string(jsonByte))
 		json.Unmarshal(jsonByte, &testCase)
 
-		if utils.Contains(testCase.ArrayData, testCase.TextToFind) != testCase.ExpectedResult {
+		if Contains(testCase.ArrayData, testCase.TextToFind) != testCase.ExpectedResult {
 			t.Errorf("Fail searching the string %s", testCase.TextToFind)
 		}
 	})
