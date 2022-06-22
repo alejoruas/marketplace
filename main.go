@@ -1,14 +1,13 @@
 package main
 
-import "marketplace/apps/stock"
+import (
+	approuter "marketplace/infrastructure/approuter"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	stock.StockDoSomething()
-	/*testPage()
 	router := gin.Default()
-	router.GET("/albums", getAlbums)
-	router.GET("/album/:id", getAlbumById)
-	router.GET("/reverse/:text", reverse)
-	router.POST("/albums", postAlbum)
-	router.Run("localhost:3000")*/
+	approuter.StartRouter(router)
+	router.Run("localhost:3000")
 }
