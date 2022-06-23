@@ -1,5 +1,17 @@
-//build de docker image
-docker build -t marketplace .
+#build de docker image
+docker build --tag docker-marketplace .
 
 
+docker run -p 8080:8080 marketplaceapp
+
+docker-compose build
+docker-compose up
+
+#inside de container
+
+#look the proccess that are working
+ps fax
+
+#POSTGRES
+PGADMIN PASSWORD: E7+-KIAJS
 

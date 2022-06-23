@@ -9,5 +9,5 @@ import (
 func main() {
 	router := gin.Default()
 	approuter.StartRouter(router)
-	router.Run("localhost:3000")
+	router.Run(":8080")
 }

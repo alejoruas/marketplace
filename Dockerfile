@@ -1,20 +1,17 @@
-# syntax=docker/dockerfile:1
+FROM golang:latest
 
-# Alpine is chosen for its small footprint
-# compared to Ubuntu
-FROM golang:1.18-alpine
+LABEL maintainer="alejoruasuarez@gmail.com"
 
 WORKDIR /app
 
-# Download necessary Go modules
-COPY go.mod /.
-COPY go.sum /.
+COPY go.mod .
+COPY go.sum .
+
 RUN go mod download
 
 COPY . .
 
-RUN go build -o /marketplace
+RUN go build
 
-EXPOSE 3000
+CMD [ "./marketplace" ]
 
-CMD [ "/marketplace" ]
