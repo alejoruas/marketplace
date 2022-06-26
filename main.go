@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	approuter "marketplace/infrastructure/approuter"
+	db "marketplace/infrastructure/database"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -15,10 +16,13 @@ func main() {
 		fmt.Println(err)
 	}
 
+	sql, err := db.NewDBSQL()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	router := gin.Default()
-	approuter.StartRouter(router)
-
-	fmt.Println(os.Getenv("APP_PORT"))
-
+	approuter.StartRouter(router, sql)
 	router.Run(os.Getenv("APP_PORT"))
 }

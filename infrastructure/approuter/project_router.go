@@ -3,20 +3,21 @@ package approuter
 import (
 	controller "marketplace/adapter/controllers"
 	presenter "marketplace/adapter/presenters"
+	"marketplace/adapter/repository"
 	"marketplace/usecases"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
-func StartRouter(ginEngine *gin.Engine) {
-	ginEngine.POST("/projects", buildCreateProjectAction(ginEngine))
+func StartRouter(ginEngine *gin.Engine, sqldb repository.SQL) {
+	ginEngine.POST("/projects", buildCreateProjectAction(ginEngine, sqldb))
 }
 
-func buildCreateProjectAction(g *gin.Engine) gin.HandlerFunc {
+func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var (
-			usecase = usecases.NewProjectInteractor(nil, presenter.NewCreCreateProjectPresenter(), 10*time.Second)
+			usecase = usecases.NewProjectInteractor(repository.NewProjectSql(sqldb), presenter.NewCreCreateProjectPresenter(), 10*time.Second)
 			action  = controller.NewCreateProjectAction(usecase)
 		)
 

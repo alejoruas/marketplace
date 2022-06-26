@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 	"marketplace/adapter/repository"
+
+	_ "github.com/lib/pq"
 )
 
 type postgressql struct {
@@ -22,7 +24,8 @@ func NewPostgressql(config *configdb) (*postgressql, error) {
 
 	err = connection.Ping()
 	if err != nil {
-		return &postgressql{}, err
+		fmt.Println(err)
+		//return &postgressql{}, err
 	}
 
 	return &postgressql{db: connection}, nil

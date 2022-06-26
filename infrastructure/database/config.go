@@ -13,12 +13,12 @@ type configdb struct {
 	password string
 }
 
-func createPostgresConfig() *configdb {
+func CreatePostgresConfig() *configdb {
 	return &configdb{
 		host:     os.Getenv("DB_HOST"),
 		driver:   os.Getenv("DB_DRIVER"),
 		port:     os.Getenv("DB_PORT"),
-		database: os.Getenv("DB_NAME=project"),
+		database: os.Getenv("DB_NAME"),
 		user:     os.Getenv("DB_USER"),
 		password: os.Getenv("DB_PASSWORD"),
 	}

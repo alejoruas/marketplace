@@ -2,6 +2,7 @@ package usecases
 
 import (
 	"context"
+	"fmt"
 	"marketplace/domain"
 	"time"
 )
@@ -55,28 +56,47 @@ func (cpi CreateProjectInteractor) Execute(ctx context.Context, projectInput Pro
 	ctx, cancel := context.WithTimeout(ctx, cpi.ctxTimeOut)
 	defer cancel()
 
-	project, err1 := domain.NewProject(projectInput.Name, projectInput.Budget)
+	var (
+		project domain.Project
+		err     error
+	)
 
-	if err1 != nil {
-		return cpi.presenter.Output(domain.Project{}), err1
+	err = cpi.repository.WithTransaction(ctx, func(ctxTx context.Context) error {
+		project, err = domain.NewProject(projectInput.Name, projectInput.Budget)
+
+		if err != nil {
+			return err
+		}
+
+		var driverImputacion []domain.ImputationUnity
+
+		for i := 0; i < len(projectInput.DriverImputation); i++ {
+			di, _ := domain.NewImputationUnity(
+				projectInput.DriverImputation[i].Ceco,
+				projectInput.DriverImputation[i].Cia,
+				projectInput.DriverImputation[i].Percentage)
+
+			driverImputacion = append(driverImputacion, di)
+		}
+
+		project.SetDriverImputation(driverImputacion)
+
+		project, err = cpi.repository.Create(ctxTx, project)
+
+		//TODO: create driverImputation
+
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println(err)
+		return cpi.presenter.Output(domain.Project{}), nil
 	}
-
-	var driverImputacion []domain.ImputationUnity
-
-	for i := 0; i < len(projectInput.DriverImputation); i++ {
-		di, _ := domain.NewImputationUnity(
-			projectInput.DriverImputation[i].Ceco,
-			projectInput.DriverImputation[i].Cia,
-			projectInput.DriverImputation[i].Percentage)
-
-		driverImputacion = append(driverImputacion, di)
-	}
-
-	project.SetDriverImputation(driverImputacion)
-
-	//TODO: call the Repositry
-
-	project.SetId("4343434")
 
 	return cpi.presenter.Output(project), nil
 }
