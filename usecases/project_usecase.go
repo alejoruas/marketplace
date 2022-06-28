@@ -42,14 +42,23 @@ type (
 	}
 
 	CreateProjectInteractor struct {
-		repository domain.ProjectRepository
-		presenter  CreateProjectPresenter
-		ctxTimeOut time.Duration
+		repositoryProject          domain.ProjectRepository
+		repositoryDriverImputation domain.ImputationUnityRepository
+		presenter                  CreateProjectPresenter
+		ctxTimeOut                 time.Duration
 	}
 )
 
-func NewProjectInteractor(repository domain.ProjectRepository, presenter CreateProjectPresenter, t time.Duration) CreateProjectUseCase {
-	return CreateProjectInteractor{repository: repository, presenter: presenter, ctxTimeOut: t}
+func NewProjectInteractor(
+	repositoryProject domain.ProjectRepository,
+	repositoryDriverImputation domain.ImputationUnityRepository,
+	presenter CreateProjectPresenter,
+	t time.Duration) CreateProjectUseCase {
+	return CreateProjectInteractor{
+		repositoryProject:          repositoryProject,
+		repositoryDriverImputation: repositoryDriverImputation,
+		presenter:                  presenter,
+		ctxTimeOut:                 t}
 }
 
 func (cpi CreateProjectInteractor) Execute(ctx context.Context, projectInput ProjectInput) (ProjectOutput, error) {
@@ -61,7 +70,7 @@ func (cpi CreateProjectInteractor) Execute(ctx context.Context, projectInput Pro
 		err     error
 	)
 
-	err = cpi.repository.WithTransaction(ctx, func(ctxTx context.Context) error {
+	err = cpi.repositoryProject.WithTransaction(ctx, func(ctxTx context.Context) error {
 		project, err = domain.NewProject(projectInput.Name, projectInput.Budget)
 
 		if err != nil {
@@ -81,13 +90,19 @@ func (cpi CreateProjectInteractor) Execute(ctx context.Context, projectInput Pro
 
 		project.SetDriverImputation(driverImputacion)
 
-		project, err = cpi.repository.Create(ctxTx, project)
-
-		//TODO: create driverImputation
+		project, err = cpi.repositoryProject.Create(ctxTx, project)
 
 		if err != nil {
 			fmt.Println(err)
 			return err
+		}
+
+		for _, di := range project.GetDriverImputacion() {
+			_, err = cpi.repositoryDriverImputation.Create(ctxTx, project, di)
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
 		}
 
 		return nil

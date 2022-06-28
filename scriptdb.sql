@@ -16,8 +16,8 @@ COMMENT ON DATABASE postgres
 
 CREATE TABLE IF NOT EXISTS public."Project"
 (
-    id text COLLATE pg_catalog."default" NOT NULL,
-    name text COLLATE pg_catalog."default" NOT NULL,
+    id varchar(150) COLLATE pg_catalog."default" NOT NULL,
+    name varchar(200) COLLATE pg_catalog."default" NOT NULL,
     budget double precision,
     CONSTRAINT "Project_pkey" PRIMARY KEY (id)
 )
@@ -32,10 +32,10 @@ ALTER TABLE IF EXISTS public."Project"
 
 CREATE TABLE IF NOT EXISTS public."DriverImputation"
 (
-    id_project text COLLATE pg_catalog."default" NOT NULL,
-    ceco character(9)[] COLLATE pg_catalog."default" NOT NULL,
+    id_project varchar(150) COLLATE pg_catalog."default" NOT NULL,
+    ceco varchar(9) COLLATE pg_catalog."default" NOT NULL,
     percentage double precision NOT NULL,
-    cia character(2)[] COLLATE pg_catalog."default" NOT NULL,
+    cia varchar(2) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT "DriverImputation_pkey" PRIMARY KEY (id_project, ceco)
 )
 

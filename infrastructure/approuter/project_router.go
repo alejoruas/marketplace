@@ -17,8 +17,12 @@ func StartRouter(ginEngine *gin.Engine, sqldb repository.SQL) {
 func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var (
-			usecase = usecases.NewProjectInteractor(repository.NewProjectSql(sqldb), presenter.NewCreCreateProjectPresenter(), 10*time.Second)
-			action  = controller.NewCreateProjectAction(usecase)
+			usecase = usecases.NewProjectInteractor(
+				repository.NewProjectSql(sqldb),
+				repository.NewImputationUnitySql(sqldb),
+				presenter.NewCreCreateProjectPresenter(),
+				10*time.Second)
+			action = controller.NewCreateProjectAction(usecase)
 		)
 
 		action.Execute(ctx)

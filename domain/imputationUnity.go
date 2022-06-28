@@ -1,10 +1,19 @@
 package domain
 
-type ImputationUnity struct {
-	ceco       Ceco
-	cia        string
-	percentage float64
-}
+import "context"
+
+type (
+	ImputationUnity struct {
+		ceco       Ceco
+		cia        string
+		percentage float64
+	}
+
+	ImputationUnityRepository interface {
+		Create(context.Context, Project, ImputationUnity) (ImputationUnity, error)
+		FindByProjectId(context.Context, string) ([]ImputationUnity, error)
+	}
+)
 
 func NewImputationUnity(ceco string, cia string, percentage float64) (ImputationUnity, error) {
 	var newImputationUnity ImputationUnity
