@@ -5,13 +5,13 @@ import (
 	"marketplace/usecases"
 )
 
-type createProjectPresenter struct{}
+type CreateProjectPresenterImp struct{}
 
-func NewCreCreateProjectPresenter() usecases.CreateProjectPresenter {
-	return createProjectPresenter{}
+func NewCreateProjectPresenter() CreateProjectPresenterImp {
+	return CreateProjectPresenterImp{}
 }
 
-func (cpp createProjectPresenter) Output(project domain.Project) usecases.ProjectOutput {
+func (cpp CreateProjectPresenterImp) Output(project domain.Project) usecases.ProjectOutput {
 
 	var driverImputacion []usecases.ImputationUnityInOutput
 

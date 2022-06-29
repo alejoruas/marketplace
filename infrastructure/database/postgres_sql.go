@@ -15,17 +15,16 @@ type postgressql struct {
 
 func NewPostgressql(config *configdb) (*postgressql, error) {
 	var datasource = fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable",
-		config.host, config.port, config.database, config.user, config.password)
+		config.Host, config.Port, config.Database, config.User, config.Password)
 
-	connection, err := sql.Open(config.driver, datasource)
+	connection, err := sql.Open(config.Driver, datasource)
 	if err != nil {
 		return &postgressql{}, err
 	}
 
 	err = connection.Ping()
 	if err != nil {
-		fmt.Println(err)
-		//return &postgressql{}, err
+		return &postgressql{}, err
 	}
 
 	return &postgressql{db: connection}, nil

@@ -20,7 +20,7 @@ func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFu
 			usecase = usecases.NewProjectInteractor(
 				repository.NewProjectSql(sqldb),
 				repository.NewImputationUnitySql(sqldb),
-				presenter.NewCreCreateProjectPresenter(),
+				presenter.NewCreateProjectPresenter(),
 				10*time.Second)
 			action = controller.NewCreateProjectAction(usecase)
 		)

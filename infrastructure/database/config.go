@@ -1,25 +1,40 @@
 package database
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 )
 
 type configdb struct {
-	host     string
-	driver   string
-	port     string
-	database string
-	user     string
-	password string
+	Host     string
+	Driver   string
+	Port     string
+	Database string
+	User     string
+	Password string
 }
 
 func CreatePostgresConfig() *configdb {
-	return &configdb{
-		host:     os.Getenv("DB_HOST"),
-		driver:   os.Getenv("DB_DRIVER"),
-		port:     os.Getenv("DB_PORT"),
-		database: os.Getenv("DB_NAME"),
-		user:     os.Getenv("DB_USER"),
-		password: os.Getenv("DB_PASSWORD"),
+	var config = configdb{
+		Host:     os.Getenv("DB_HOST"),
+		Driver:   os.Getenv("DB_DRIVER"),
+		Port:     os.Getenv("DB_PORT"),
+		Database: os.Getenv("DB_NAME"),
+		User:     os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
 	}
+
+	config.showConfig()
+
+	return &config
+}
+
+func (c configdb) showConfig() {
+	b, err := json.Marshal(c)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(b))
 }
