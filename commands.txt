@@ -15,3 +15,11 @@ ps fax
 #POSTGRES
 PGADMIN PASSWORD: E7+-KIAJS
 
+go build -v -gcflags='all=-N -l' main.go
+
+
+env GOOS=linux GOARCH=amd64 go build main.go
+
+sam build
+sam local start-api
+sam local invoke marketplace -e /events/projects.json

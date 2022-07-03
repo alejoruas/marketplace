@@ -1,4 +1,4 @@
-CREATE DATABASE postgres
+CREATE DATABASE marketplace
     WITH
     OWNER = spuser
     ENCODING = 'UTF8'
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public."Project"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."Project"
-    OWNER to spuser;
+    OWNER to userdb;
 
 
 -- Table: public.DriverImputation
@@ -42,4 +42,4 @@ CREATE TABLE IF NOT EXISTS public."DriverImputation"
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public."DriverImputation"
-    OWNER to spuser;
+    OWNER to userdb;

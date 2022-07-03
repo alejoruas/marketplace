@@ -1,0 +1,9 @@
+{
+    "body":"",
+    "resource": "/{proxy+}",
+    "path": "/hello",
+    "httpmethod":"POST",
+    "pathParameters": {
+        "proxy": "/hello"
+    }
+}

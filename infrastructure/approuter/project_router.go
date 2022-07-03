@@ -5,6 +5,7 @@ import (
 	presenter "marketplace/adapter/presenters"
 	"marketplace/adapter/repository"
 	"marketplace/usecases"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,7 @@ import (
 
 func StartRouter(ginEngine *gin.Engine, sqldb repository.SQL) {
 	ginEngine.POST("/projects", buildCreateProjectAction(ginEngine, sqldb))
+	ginEngine.GET("/hello", helloWorld())
 }
 
 func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFunc {
@@ -26,5 +28,11 @@ func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFu
 		)
 
 		action.Execute(ctx)
+	}
+}
+
+func helloWorld() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		ctx.String(http.StatusOK, "holaaa")
 	}
 }

@@ -1,2 +1,9 @@
 pg_data/*
 pg_data_test/*
+
+.env
+
+.aws-sam/*
+
+main.exe
+main.zip
