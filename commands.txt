@@ -1,25 +1,17 @@
 #build de docker image
-docker build --tag docker-marketplace .
+docker build --tag marketplace .
 
+#run docker image
+docker run -p 80:80 --env-file ./.env marketplace
 
-docker run -p 8080:8080 marketplaceapp
-
-docker-compose build
-docker-compose up
-
-#inside de container
-
-#look the proccess that are working
-ps fax
-
-#POSTGRES
-PGADMIN PASSWORD: E7+-KIAJS
-
-go build -v -gcflags='all=-N -l' main.go
-
-
+#GHO build for linux arch
 env GOOS=linux GOARCH=amd64 go build main.go
 
-sam build
-sam local start-api
-sam local invoke marketplace -e /events/projects.json
+#authenticate to your default registry (AWS ecr)
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 995843574875.dkr.ecr.us-east-1.amazonaws.com
+
+#tag de docke image with AWS ecr
+docker tag marketplace 995843574875.dkr.ecr.us-east-1.amazonaws.com/marketplace
+
+#push de docker image to AWS ecr
+docker push 995843574875.dkr.ecr.us-east-1.amazonaws.com/marketplace

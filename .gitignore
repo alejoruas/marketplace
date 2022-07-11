@@ -2,6 +2,7 @@ pg_data/*
 pg_data_test/*
 
 .env
+private.env
 
 .aws-sam/*
 
