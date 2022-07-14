@@ -15,3 +15,14 @@ docker tag marketplace 995843574875.dkr.ecr.us-east-1.amazonaws.com/marketplace
 
 #push de docker image to AWS ecr
 docker push 995843574875.dkr.ecr.us-east-1.amazonaws.com/marketplace
+
+
+##########pipeline
+
+create repo in s3
+
+codecommit: create repo
+
+create files
+
+code

@@ -1,10 +1,10 @@
 pg_data/*
 pg_data_test/*
+.aws-sam/*
+terraform/*
 
 .env
 private.env
-
-.aws-sam/*
 
 main.exe
 main.zip
