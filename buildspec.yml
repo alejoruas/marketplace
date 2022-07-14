@@ -41,9 +41,9 @@ phases:
       - go build -o main
 
       # Package our application with AWS SAM
-      - echo start packaging ${S3_BUCKET}
+      #- echo start packaging ${S3_BUCKET}
       #- aws cloudformation package --template-file template-lambda.yml --s3-bucket ${S3_BUCKET} --output-template-file s3://code-bachlmayr/packaged.yml
-      - aws cloudformation package --template-file template-sam.yml --s3-bucket ${S3_BUCKET} --output-template-file s3://code-bachlmayr/packaged.yml
+      #- aws cloudformation package --template-file template-sam.yml --s3-bucket ${S3_BUCKET} --output-template-file s3://code-bachlmayr/packaged.yml
      
       # copy CFN template
       #- echo start copying ${CODEBUILD_SRC_DIR}/template-lambda.yml
