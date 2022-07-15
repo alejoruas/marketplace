@@ -38,7 +38,7 @@ phases:
       - cd "/go/src/${PACKAGE}"
 
       #- go build -a src/fetch.go
-      - go build -o main
+      - go build -o marketplace
 
       # Package our application with AWS SAM
       #- echo start packaging ${S3_BUCKET}
@@ -62,5 +62,4 @@ phases:
 
 artifacts:
   files:
-    - packaged.yml
-    - fetch
+    - marketplace    
