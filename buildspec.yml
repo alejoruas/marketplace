@@ -28,6 +28,8 @@ phases:
       # Fetch all dependencies
       - go get -t ./...
 
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
     finally:
       - echo end of pre-build phase
 
@@ -48,14 +50,18 @@ phases:
       # copy CFN template
       #- echo start copying ${CODEBUILD_SRC_DIR}/template-lambda.yml
       #- aws s3 cp ${CODEBUILD_SRC_DIR}/template-lambda.yml s3://code-bachlmayr/template-lambda.yml
-
-    
+      
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
     finally:
       - echo end of build phase
 
   post_build:
     commands:
       - echo starting the post_build phase, but not really
+
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      
       #- aws cloudformation create-stack --stack-name fetch --template-url https://s3-ap-southeast-2.amazonaws.com/code-bachlmayr/template-lambda.yml --capabilities CAPABILITY_IAM
     finally:
       - echo end of post_build phase
