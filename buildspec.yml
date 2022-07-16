@@ -23,13 +23,17 @@ phases:
     commands:
       - echo starting the pre-build phase
       # Make sure we're in the project directory within our GOPATH
+
+      
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
       - cd "/go/src/${PACKAGE}"
 
       # Fetch all dependencies
       - go get -t ./...
 
-      #- aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - docker login -u AWS --password-stdin -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      
+      #- docker login -u AWS --password-stdin -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
 
     finally:
       - echo end of pre-build phase
