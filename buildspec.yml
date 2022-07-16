@@ -69,14 +69,14 @@ phases:
     finally:
       - echo end of post_build phase
 
-artifacts:
-  files:
-    - marketplace    
+# artifacts:
+#   files:
+#     - marketplace    
 
-ArtifactStore: 
-  Type: S3 
-  Location:
-    Ref: $S3_BUCKET 
-  EncryptionKey:
-    Id: $ENCRYPTION_KEY
-    Type: KMS
+# ArtifactStore: 
+#   Type: S3 
+#   Location:
+#     Ref: $S3_BUCKET 
+#   EncryptionKey:
+#     Id: $ENCRYPTION_KEY
+#     Type: KMS
