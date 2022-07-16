@@ -72,3 +72,11 @@ phases:
 artifacts:
   files:
     - marketplace    
+
+ArtifactStore: 
+  Type: S3 
+  Location:
+    Ref: $S3_BUCKET 
+  EncryptionKey:
+    Id: $ENCRYPTION_KEY
+    Type: KMS
