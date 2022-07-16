@@ -33,6 +33,6 @@ func buildCreateProjectAction(g *gin.Engine, sqldb repository.SQL) gin.HandlerFu
 
 func helloWorld() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "holaaa")
+		ctx.String(http.StatusOK, "holaaa -- PROBANDO CAMBIOS")
 	}
 }
