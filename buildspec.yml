@@ -69,9 +69,12 @@ phases:
     finally:
       - echo end of post_build phase
 
-# artifacts:
-#   files:
-#     - marketplace    
+ artifacts:
+   files:
+     - '**/*'
+   base-directory: /
+   name: backend-artifactory
+   discard_path: no
 
 # ArtifactStore: 
 #   Type: S3 
