@@ -10,6 +10,10 @@ env GOOS=linux GOARCH=amd64 go build main.go
 #authenticate to your default registry (AWS ecr)
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 995843574875.dkr.ecr.us-east-1.amazonaws.com
 
+docker login -u AWS -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+
 #tag de docke image with AWS ecr
 docker tag marketplace 995843574875.dkr.ecr.us-east-1.amazonaws.com/marketplace
 

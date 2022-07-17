@@ -75,11 +75,3 @@ phases:
       - echo end of post_build phase
 artifacts:
     files: imagedefinitions.json
-  
-# ArtifactStore: 
-#   Type: S3 
-#   Location:
-#     Ref: $S3_BUCKET 
-#   EncryptionKey:
-#     Id: $ENCRYPTION_KEY
-#     Type: KMS
