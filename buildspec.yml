@@ -33,6 +33,7 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       #- docker login -u AWS --password-stdin -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
 
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
     finally:
       - echo end of pre-build phase
 
@@ -64,14 +65,16 @@ phases:
       - echo starting the post_build phase, but not really
 
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+
+      - echo writting image definitions file
+
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       
-      #- aws cloudformation create-stack --stack-name fetch --template-url https://s3-ap-southeast-2.amazonaws.com/code-bachlmayr/template-lambda.yml --capabilities CAPABILITY_IAM
+      
     finally:
       - echo end of post_build phase
-
 artifacts:
-  files:
-    - '**/*'
+    files: imagedefinitions.json
   
 # ArtifactStore: 
 #   Type: S3 
